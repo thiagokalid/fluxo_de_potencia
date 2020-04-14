@@ -4,6 +4,9 @@
 %
 % @param matriz_B: matriz dos valores da susceptância das LTs de tamanho
 %1 x N onde N corresponde ao número de barras. 
+%
+% @return Y_bus: matriz admitancia tamanho N x N, com valores reais e
+% imaginários.
 
 function [Y_Bus] = matriz_admitancia(matriz_Z , matriz_B)
 %UNTITLED Summary of this function goes here
