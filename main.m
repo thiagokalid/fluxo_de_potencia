@@ -44,49 +44,58 @@ matriz_P(1) = -0.15;
 matriz_P(3) = 0.20;
 
 matriz_Q = sym("Q" , [n , 1]);
+assume(matriz_Q, 'real');
 matriz_Q(1) = 0.05;
-matriz_Q(2) = 0;
-matriz_Q(3) = 0;
+% matriz_Q(2) = 0;
+% matriz_Q(3) = 0;
 
 P_esp = vpa(matriz_P + matriz_Q * i);
 
 
 
 matriz_V = sym("V" , [1 , n]);
+vars = matriz_V;
 simb_V = matriz_V;
-% matriz_V(1) = ;
+% matriz_V(1) = ;simb_V(1) = 0;
 matriz_V(2) = 1; simb_V(2) = 0;
 matriz_V(3) = 1; simb_V(3) = 0;
 
 
-matriz_thet = sym("theta" , [1 , n]);
-simb_theta = matriz_thet;
-% matriz_thet(1) =;
-matriz_thet(2) = 0; simb_theta(2) = 0;
-% matriz_thet(1) =;
+matriz_theta = sym("theta" , [1 , n]);
+vars = [vars matriz_theta];
+simb_theta = matriz_theta;
+% matriz_theta(1) =; simb_theta(1) = 0;
+matriz_theta(2) = 0; simb_theta(2) = 0;
+% matriz_theta(1) =; simb_theta(3) = 0;
 
 
 %%
 non_zero_theta = simb_theta(simb_theta ~= 0);
 non_zero_V     = simb_V(simb_V ~= 0);
 
-variables = [non_zero_theta , non_zero_V];
+variaveis_NR = [non_zero_theta , non_zero_V];
 
 X0   = [zeros(1, size(non_zero_theta , 2))  ones(1, size(non_zero_V, 2))]';
-cell_X0   = num2cell(X0);
+
 %%
-[m_funcao_potencia , variaveis] = m_funcao_potencia(P_esp, Tipo_barra , matriz_Y);
-m_P = subs(m_funcao_potencia , variaveis , [matriz_thet matriz_V]);
-f_P = symfun(m_P , variables);
+
+variaveis = vars;
+[m_funcao_potencia , P_potencia,  Q_potencia] = m_funcao_potencia(P_esp, Tipo_barra ,matriz_V , matriz_theta, matriz_Y);
+valor_variaveis = [matriz_theta matriz_V];
+f_P = symfun(m_funcao_potencia , variaveis_NR);
 mm_P = matlabFunction(f_P);
-m_JAC = jacobian(m_funcao_potencia , variables);
-m_JAC = subs(m_JAC , variaveis , [matriz_thet matriz_V]);
-f_JAC = symfun(m_JAC , variables);
+m_JAC = jacobian(m_funcao_potencia , variaveis_NR);
+f_JAC = symfun(m_JAC , variaveis_NR);
 mm_JAC = matlabFunction(f_JAC);
 
 
+P_func = symfun(P_potencia , variaveis_NR);
+Q_func = symfun(Q_potencia , variaveis_NR);
 
+P_numeric = matlabFunction(P_func);
+Q_numeric = matlabFunction(Q_func);
 %%
+cell_X0   = num2cell(X0);
 eval = f_P(cell_X0{:});
 erro = norm(eval , 2);
 max_iter = 20;
@@ -112,11 +121,18 @@ while(erro > tol)
     
 end
 
-variables
+variaveis_NR
 X1
 cell_X1 = num2cell(X1);
-mm_P(cell_X1{:})
 
+variaveis
+Valor_variaveis_final = subs(valor_variaveis , variaveis_NR , X1')
+% mm_P(cell_X1{:})
+last_Jacobian = mm_JAC(cell_X1{:})
+P_variable = P_esp()
+P_missing = symvar(P_esp)
+
+P_final = P_numeric(cell_X1{:}) + Q_numeric(cell_X1{:}) * i
 
 
 

@@ -15,4 +15,6 @@ for m = 1:1:max
     
     somatorio = somatorio + somatorio_temp;
 end
+end
+
 
