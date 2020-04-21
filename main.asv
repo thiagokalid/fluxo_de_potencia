@@ -92,10 +92,47 @@ Q_func = symfun(Q_potencia , variaveis_NR);
 
 P_numeric = matlabFunction(P_func);
 Q_numeric = matlabFunction(Q_func);
+% %%
+% cell_X0   = num2cell(X0);
+% eval = f_P(cell_X0{:});
+% erro = norm(eval , 2);
+% max_iter = 1000;
+% iter = 1;
+% tol  = 1.e-10;
+% 
+% while(erro > tol)
+%     P_X0 = f_P(cell_X0{:});
+%     JAC_X0 = mm_JAC(cell_X0{:});
+%     
+%     X1 = X0 - inv(JAC_X0) * P_X0;
+%     
+%     P_X1 = f_P(cell_X0{:});
+%     eval = f_P(cell_X0{:});
+%     erro = norm(eval , 2);
+%     
+%     if iter > max_iter
+%         break
+%     end
+%     X0 = X1;
+%     cell_X0 = num2cell(X0);
+%     iter = iter + 1;
+%     
+% end
+% 
+% variaveis_NR
+% X1
+% cell_X1 = num2cell(X1);
+% 
+% variaveis
+% Valor_variaveis_final = vpa(subs(valor_variaveis , variaveis_NR , X1'))
+% % mm_P(cell_X1{:})
+% last_Jacobian = -mm_JAC(cell_X1{:})
+% P_variable = P_esp()
 
-[X1 , final_JAC] = NewtonRaphson(m_funcao_potencia , variaveis_NR ,  X0)
+
+NewtonRaphson(power_equations , variables ,  X0)
 P_missing = symvar(P_esp)
-cell_X1 = num2cell(X1);
+
 P_final = P_numeric(cell_X1{:}) + Q_numeric(cell_X1{:}) * i
 
 
