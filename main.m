@@ -16,7 +16,7 @@ Z_13 = 0.0062 + j*0.0632;
 Z_23 = 0.0047 + j*0.0474;
 
 matriz_B = [ (j*675e-6/2) ; ((j*900e-6)/2) ; ((j*675e-6)/2) ];
-
+matriz_B = [0 ; 0 ; 0];
 
 matriz_Z = zeros(n,n);
 matriz_Z = [0 Z_12 Z_13 ; Z_12 0 Z_23 ; Z_13 Z_12 0]; % Impedancia das linhas de transmissao. Zero igual a nao existir linha.
@@ -26,28 +26,26 @@ matriz_Y = zeros(n,n);
 
 matriz_Y = matriz_admitancia(matriz_Z, matriz_B);
 
-matriz_G = [0.33 -0.33 0 ; -0.33 0.4078 -0.0778 ; 0 -0.0778 0.0778];
-matriz_B = [-3.2303i 3.3003i 0i ; 3.3003i -4.5154i 1.2451i; 0 1.2451i -1.2351i];
-matriz_Y = matriz_G + matriz_B
+
 %%
 
 
-Tipo_barra(1) = PQ;
-Tipo_barra(2) = SLACK;
-Tipo_barra(3) = PV;
+Tipo_barra(1) = SLACK;
+Tipo_barra(2) = PV;
+Tipo_barra(3) = PQ;
 
 
 
 matriz_P = sym("P" , [n , 1]);
-matriz_P(1) = -0.15;
-% matriz_P(2) = ;
-matriz_P(3) = 0.20;
+% matriz_P(1) = -0.15;
+matriz_P(2) = 2;
+matriz_P(3) = -5;
 
 matriz_Q = sym("Q" , [n , 1]);
 assume(matriz_Q, 'real');
-matriz_Q(1) = 0.05;
-% matriz_Q(2) = 0;
-% matriz_Q(3) = 0;
+% matriz_Q(1) = ;
+% matriz_Q(2) = 2.67;
+matriz_Q(3) = -1;
 
 P_esp = vpa(matriz_P + matriz_Q * i);
 
@@ -56,16 +54,16 @@ P_esp = vpa(matriz_P + matriz_Q * i);
 matriz_V = sym("V" , [1 , n]);
 vars = matriz_V;
 simb_V = matriz_V;
-% matriz_V(1) = ;simb_V(1) = 0;
-matriz_V(2) = 1; simb_V(2) = 0;
-matriz_V(3) = 1; simb_V(3) = 0;
+matriz_V(1) = 1;simb_V(1) = 0;
+matriz_V(2) = 1.05; simb_V(2) = 0;
+% matriz_V(3) = 1; simb_V(3) = 0;
 
 
 matriz_theta = sym("theta" , [1 , n]);
-vars = [vars matriz_theta];
+vars = [matriz_theta vars];
 simb_theta = matriz_theta;
-% matriz_theta(1) =; simb_theta(1) = 0;
-matriz_theta(2) = 0; simb_theta(2) = 0;
+matriz_theta(1) = 0; simb_theta(1) = 0;
+% matriz_theta(2) = 0; simb_theta(2) = 0;
 % matriz_theta(1) =; simb_theta(3) = 0;
 
 
@@ -98,7 +96,7 @@ Q_numeric = matlabFunction(Q_func);
 cell_X0   = num2cell(X0);
 eval = f_P(cell_X0{:});
 erro = norm(eval , 2);
-max_iter = 20;
+max_iter = 1000;
 iter = 1;
 tol  = 1.e-10;
 
@@ -126,9 +124,9 @@ X1
 cell_X1 = num2cell(X1);
 
 variaveis
-Valor_variaveis_final = subs(valor_variaveis , variaveis_NR , X1')
+Valor_variaveis_final = vpa(subs(valor_variaveis , variaveis_NR , X1'))
 % mm_P(cell_X1{:})
-last_Jacobian = mm_JAC(cell_X1{:})
+last_Jacobian = -mm_JAC(cell_X1{:})
 P_variable = P_esp()
 P_missing = symvar(P_esp)
 
