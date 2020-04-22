@@ -1,4 +1,4 @@
-function [X1 , final_JAC] = NewtonRaphson(power_equations , variables ,  X0)
+function [X1 , final_JAC, iter] = NewtonRaphson(power_equations , variables ,  X0)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 P_sym_function = symfun(power_equations , variables);
@@ -12,11 +12,11 @@ JAC_numeric_func = matlabFunction(JAC_symfun);
 cell_X0   = num2cell(X0);
 eval = P_numeric_func(cell_X0{:});
 erro = norm(eval , 2);
-max_iter = 1000;
-iter = 1;
+max_iter = 100;
+iter = 0;
 tol  = 1.e-10;
 
-while(erro > tol)
+while((erro > tol)&&(iter < max_iter))
     P_X0 = P_numeric_func(cell_X0{:});
     JAC_X0 = JAC_numeric_func(cell_X0{:});
     
@@ -26,12 +26,10 @@ while(erro > tol)
     eval = P_numeric_func(cell_X0{:});
     erro = norm(eval , 2);
     
-    if iter > max_iter
-        break
-    end
     X0 = X1;
     cell_X0 = num2cell(X0);
     iter = iter + 1;
+    
     
 end
 

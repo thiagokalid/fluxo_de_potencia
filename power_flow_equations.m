@@ -10,7 +10,7 @@
 
 
 
-function [f_potencia_NR , P_potencia , Q_potencia] = f_potencia_NR(P_esp, Tipo_barra ,matriz_V, matriz_theta, matriz_Y)
+function [f_potencia_NR , f_potencia_geral] = power_flow_equations(P_esp, Tipo_barra ,matriz_V, matriz_theta, matriz_Y)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -31,36 +31,39 @@ for i = 1:1:num_barramentos
     end
 end
 
-funcao_P = sym("P" , [nPQ + nPV , 1]);
+P_equations = sym("P" , [nPQ + nPV , 1]);
 P_count = 1;
-funcao_Q = sym("Q" , [nPQ , 1] , 'real' );
+Q_equations = sym("Q" , [nPQ , 1] , 'real' );
 Q_count = 1;
 
 
 
 %%
-for k = 1:1:(nPV + nPQ + 1)
-    P_potencia(k , 1) = funcaoP(k, matriz_V, matriz_theta, matriz_Y);
-    Q_potencia(k , 1) = funcaoQ(k, matriz_V, matriz_theta, matriz_Y);
+for k = 1:1:(num_barramentos)
+    P = funcaoP(k, matriz_V, matriz_theta, matriz_Y);
+    Q = funcaoQ(k, matriz_V, matriz_theta, matriz_Y);
+    f_potencia_geral(k , 1) = P + Q * j;
+    
     switch( Tipo_barra(k))
         case 1 %slack
             
         case 2 %PV
             P_k = real(P_esp(k));
-            funcao_P(P_count) = P_k - funcaoP(k, matriz_V, matriz_theta, matriz_Y);
+            P_equations(P_count) = P_k - P;
             P_count = P_count + 1;
         case 3 %PQ
             P_k = real(P_esp(k));
-            funcao_P(P_count) = P_k - funcaoP(k, matriz_V, matriz_theta, matriz_Y);
+            P_equations(P_count) = P_k - P;
             P_count = P_count + 1;
             
             Q_k = imag(P_esp(k));
-            funcao_Q(Q_count) = Q_k - funcaoQ(k, matriz_V, matriz_theta, matriz_Y);
+            Q_equations(Q_count) = Q_k - Q;
+            Q_count = Q_count + 1;
 end
 end
 
 
-f_potencia_NR = vpa([funcao_P ; funcao_Q]);
+f_potencia_NR = vpa([P_equations ; Q_equations]);
 
 
 

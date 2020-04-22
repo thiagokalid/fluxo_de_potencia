@@ -6,23 +6,19 @@ SLACK = 1;
 PV = 2;
 PQ = 3;
 %%
-Z_base = 1190.25;           % Unidade em OhmsPode ser extendido para formula
-Z_12_base = (5.55 + 56.4j); % Unidade em Ohms
-Z_13_base = (7.40 + 75.2j);
-Z_23_base = (5.55 + 56.4j);
+matriz_Z = zeros(n,n);
 
-Z_12 = 0.0047 + j*0.0474;
-Z_13 = 0.0062 + j*0.0632;
-Z_23 = 0.0047 + j*0.0474;
+matriz_Z(1,2) = 0.0047 + j*0.0474;
+matriz_Z(2,1) = matriz_Z(1,2);
 
-matriz_B = [ (j*675e-6/2) ; ((j*900e-6)/2) ; ((j*675e-6)/2) ];
+matriz_Z(1,3) = 0.0062 + j*0.0632;
+matriz_Z(3,1) = matriz_Z(1,3);
+
+matriz_Z(2,3) = 0.0047 + j*0.0474;
+matriz_Z(3,2) = matriz_Z(2,3);
+
 matriz_B = [0 ; 0 ; 0];
 
-matriz_Z = zeros(n,n);
-matriz_Z = [0 Z_12 Z_13 ; Z_12 0 Z_23 ; Z_13 Z_12 0]; % Impedancia das linhas de transmissao. Zero igual a nao existir linha.
-
-
-matriz_Y = zeros(n,n);
 
 matriz_Y = matriz_admitancia(matriz_Z, matriz_B);
 
@@ -75,28 +71,22 @@ variaveis_NR = [non_zero_theta , non_zero_V];
 
 X0   = [zeros(1, size(non_zero_theta , 2))  ones(1, size(non_zero_V, 2))]';
 
+
+
 %%
-
-variaveis = vars;
-[m_funcao_potencia , P_potencia,  Q_potencia] = m_funcao_potencia(P_esp, Tipo_barra ,matriz_V , matriz_theta, matriz_Y);
-valor_variaveis = [matriz_theta matriz_V];
-f_P = symfun(m_funcao_potencia , variaveis_NR);
-mm_P = matlabFunction(f_P);
-m_JAC = jacobian(m_funcao_potencia , variaveis_NR);
-f_JAC = symfun(m_JAC , variaveis_NR);
-mm_JAC = matlabFunction(f_JAC);
+[nPV , nPQ] = contBarramentos(Tipo_barra);
+[equacao_potencia_NR , f_potencia_geral] = power_flow_equations(P_esp, Tipo_barra ,matriz_V , matriz_theta, matriz_Y);
 
 
-P_func = symfun(P_potencia , variaveis_NR);
-Q_func = symfun(Q_potencia , variaveis_NR);
+% Q_func = symfun(Q_potencia , variaveis_NR);
 
-P_numeric = matlabFunction(P_func);
-Q_numeric = matlabFunction(Q_func);
+sym_P_geral = symfun(f_potencia_geral , variaveis_NR);
+P_numeric_geral = matlabFunction(sym_P_geral);
 
-[X1 , final_JAC] = NewtonRaphson(m_funcao_potencia , variaveis_NR ,  X0)
-P_missing = symvar(P_esp)
+
+[X1 , final_JAC, iteracoes] = NewtonRaphson(equacao_potencia_NR , variaveis_NR ,  X0)
+
+
 cell_X1 = num2cell(X1);
-P_final = P_numeric(cell_X1{:}) + Q_numeric(cell_X1{:}) * i
-
-
+P_values = P_numeric_geral(cell_X1{:})
 
