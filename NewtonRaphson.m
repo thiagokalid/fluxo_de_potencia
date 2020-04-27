@@ -1,11 +1,11 @@
-function [X1 , final_JAC, iter] = NewtonRaphson(power_equations , variables ,  X0)
+function [X_final , final_JAC, iter] = NewtonRaphson(eq_fluxo_pot , variaveis ,  X0)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
-P_sym_function = symfun(power_equations , variables);
+P_sym_function = symfun(eq_fluxo_pot , variaveis);
 P_numeric_func = matlabFunction(P_sym_function);
 
-JAC_equation = jacobian(power_equations , variables);
-JAC_symfun   = symfun(JAC_equation , variables);
+JAC_equation = jacobian(eq_fluxo_pot , variaveis);
+JAC_symfun   = symfun(JAC_equation , variaveis);
 JAC_numeric_func = matlabFunction(JAC_symfun);
 
 
@@ -33,6 +33,7 @@ while((erro > tol)&&(iter < max_iter))
     
 end
 
+X_final = X1;
 cell_X1 = num2cell(X1);
 final_JAC = -JAC_numeric_func(cell_X1{:});
 
