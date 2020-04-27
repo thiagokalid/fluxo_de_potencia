@@ -1,8 +1,13 @@
+
+%
+% Exemplo 5.4
+%
+
 clear 
 clc
 % Input do usuário:
 % Número de barramentos
-numBarra = 5;
+numBarra = 3;
 
 %%
 % Constantes para facilitar a leitura:
@@ -22,50 +27,26 @@ matriz_B = zeros(numBarra , 1);
 matriz_Z = zeros(numBarra,numBarra);
 
 % Impedância da LT entre os barramentos 1-2 ou 2-1 (em p.u.):
-matriz_Z(1,2) = 0.0200 + j*0.0600;
-matriz_Z(2,1) = 0.0200 + j*0.0600;
+matriz_Z(1,2) = 0.0047 + j*0.0474;
+matriz_Z(2,1) = 0.0047 + j*0.0474;
 
 % Impedância da LT entre os barramentos 1-3 ou 3-1(em p.u.):
-matriz_Z(1,3) = 0.0800 + j*0.2400;
-matriz_Z(3,1) = 0.0800 + j*0.2400;
+matriz_Z(1,3) = 0.0062 + j*0.0632;
+matriz_Z(3,1) = 0.0062 + j*0.0632;
 
 % Impedância da LT entre os barramentos 2-3 ou 3-2(em p.u.):
-matriz_Z(2,3) = 0.0600 + j*0.1800;
-matriz_Z(3,2) = 0.0600 + j*0.1800;
-
-% Impedância da LT entre os barramentos 2-4 ou 4-2(em p.u.):
-matriz_Z(2,4) = 0.0600 + j*0.1800;
-matriz_Z(4,2) = 0.0600 + j*0.1800;
-
-% Impedância da LT entre os barramentos 2-5 ou 5-2(em p.u.):
-matriz_Z(2,5) = 0.0400 + j*0.1200;
-matriz_Z(5,2) = 0.0400 + j*0.1200;
-
-% Impedância da LT entre os barramentos 3-4 ou 4-3(em p.u.):
-matriz_Z(3,4) = 0.0100 + j*0.0300;
-matriz_Z(4,3) = 0.0100 + j*0.0300;
-
-% Impedância da LT entre os barramentos 4-5 ou 5-4(em p.u.):
-matriz_Z(4,5) = 0.0800 + j*0.2400;
-matriz_Z(5,4) = 0.0800 + j*0.2400;
-
-
-
+matriz_Z(2,3) = 0.0047 + j*0.0474;
+matriz_Z(3,2) = 0.0047 + j*0.0474;
 
 % Susceptância no barramento 1, em p.u.:
-matriz_B(1) = 0 + j*0.05500;
+matriz_B(1) = 0;
 
 % Susceptância no barramento 2, em p.u.:
-matriz_B(2) = 0 + j*0.08500;
+matriz_B(2) = 0;
 
 % Susceptância no barramento 3, em p.u.:
-matriz_B(3) = 0 + j*0.05500;
+matriz_B(3) = 0;
 
-% Susceptância no barramento 4, em p.u.:
-matriz_B(3) = 0 + j*0.05500;
-
-% Susceptância no barramento 5, em p.u.:
-matriz_B(3) = 0 + j*0.04000;
 
 
 
@@ -83,32 +64,20 @@ matriz_Y = matriz_admitancia(matriz_Z, matriz_B);
 
 % Barramento 1: SLACK
 Tipo_barra(1) = SLACK;
-matriz_V(1) = 1.06;
+matriz_V(1) = 1;
 matriz_theta(1) = 0;
 
+% Barramento 2: PV
+Tipo_barra(2) = PV;
+matriz_P(2) = 2.00;
+matriz_V(2) = 1.05;
 
 
-% Barramento 2: PQ
-Tipo_barra(2) = PQ;
-matriz_P(2) = (40 - 20)/100;
-matriz_Q(2) = (30 - 10)/100;
 
 % Barramento 3: PQ
 Tipo_barra(3) = PQ;
-matriz_P(3) = (0 - 45)/100;
-matriz_Q(3) = (0 - 15)/100;
-
-% Barramento 4: PQ
-Tipo_barra(4) = PQ;
-matriz_P(4) = (0 - 40)/100;
-matriz_Q(4) = (0 - 5)/100;
-
-
-% Barramento 5: PQ
-Tipo_barra(5) = PQ;
-matriz_P(5) = (0 - 60)/100;
-matriz_Q(5) = (0 - 10)/100;
-
+matriz_P(3) = -5.0;
+matriz_Q(3) = -1.0;
 
 
 P_esp = vpa(matriz_P + matriz_Q * i);
@@ -132,7 +101,7 @@ sym_P_geral = symfun(f_potencia_geral , variaveis_NR);
 P_numeric_geral = matlabFunction(sym_P_geral);
 
 %%
-[final_X , final_JAC , iteracoes] = NewtonRaphson(equacao_potencia_NR , variaveis_NR ,  X0, 10000, 1.0e-20);
+[final_X , final_JAC , iteracoes] = NewtonRaphson(equacao_potencia_NR , variaveis_NR ,  X0, 100, 1.0e-15);
 
 cell_X = num2cell(final_X);
 P_values = P_numeric_geral(cell_X{:});

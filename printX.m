@@ -9,11 +9,11 @@ V = output(1,:)';
 theta = output(2,:)';
 
 fprintf("Tensão e ângulo nos barramentos depois de %d iterações. \n", iteracoes);
-fprintf(" n |     V  [p.u.]|  %c [p.u.]\n", 952);
+fprintf(" n |     V  [p.u.]|  %c [degree]\n", 952);
 fprintf("------------------------------\n");
 for i = 1:1:tamanho
-
-    fprintf("%2.0d | %10.5f   | %10.5f \n", i , V(i) , theta(i));
+    degree = theta(i)*(180/pi);
+    fprintf("%2.0d | %10.5f   | %10.5f \n", i , V(i) , degree);
 end
 end
 
