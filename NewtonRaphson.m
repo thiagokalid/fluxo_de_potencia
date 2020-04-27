@@ -1,4 +1,4 @@
-function [X_final , final_JAC, iter] = NewtonRaphson(eq_fluxo_pot , variaveis ,  X0)
+function [X_final , final_JAC, iter] = NewtonRaphson(eq_fluxo_pot , variaveis ,  X0, max_iteracao, tolerancia)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 P_sym_function = symfun(eq_fluxo_pot , variaveis);
@@ -12,9 +12,9 @@ JAC_numeric_func = matlabFunction(JAC_symfun);
 cell_X0   = num2cell(X0);
 eval = P_numeric_func(cell_X0{:});
 erro = norm(eval , 2);
-max_iter = 100;
+max_iter = max_iteracao;
 iter = 0;
-tol  = 1.e-10;
+tol  = tolerancia;
 
 while((erro > tol)&&(iter < max_iter))
     P_X0 = P_numeric_func(cell_X0{:});
@@ -32,6 +32,8 @@ while((erro > tol)&&(iter < max_iter))
     
     
 end
+
+
 
 X_final = X1;
 cell_X1 = num2cell(X1);
