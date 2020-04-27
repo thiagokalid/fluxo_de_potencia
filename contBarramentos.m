@@ -1,3 +1,16 @@
+% contBarramentos conta quantos barramentos tipo PV e PQ existem no
+% sistema.
+%
+%
+% [nPV , nPQ] = contBarramentos(Tipo_barra)
+%
+%@param Tipo_barra: Vetor linha contendo as especificações de qual tipo é
+%cada barramento.
+%
+% @param nPV: número escalar inteiro que contém o quantidade de barramentos PV;
+% @param nPQ: número escalar inteiro que contém o quantidade de barramentos PQ;
+
+
 function [nPV , nPQ] = contBarramentos(Tipo_barra)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here

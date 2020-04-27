@@ -1,4 +1,14 @@
-
+% obter_dadosNR gera dois vetores contendo os dados necessários para
+% conseguir realizar o método Newton-Raphson.
+%
+%[X0 , variaveisNR] = obter_dadosNR(Tipo_barra)
+%
+%@param Tipo_barra: Vetor linha contendo as especificações de qual tipo é
+%cada barramento.
+%@return X0: vetor coluna contendo todos os chutes inicias para as
+%variáveis independentes das equações de potência.
+%@return variaveisNR: retorna um vetor linha contendo todas as variáveis
+%independentes das equações de potência para o método NR.
 function [X0 , variaveisNR] = obter_dadosNR(Tipo_barra)
     num_barra = size(Tipo_barra , 2);
     
