@@ -63,9 +63,6 @@ matriz_Y = matriz_admitancia(matriz_Z, matriz_YG);
 % Se for barra tipo PV, deve-se definir Potência ativa em p.u. e magnitude da tensão em p.u..
 % Se for barra tipo PQ, deve-se definir Potência ativa em p.u. e Potência reativa em p.u..
 
-% Base de potência para o cálculo em p.u.
-P_base = 1;
-
 % Barramento 1: SLACK
 Tipo_barra(1) = SLACK;
 matriz_V(1) = 1.0;
