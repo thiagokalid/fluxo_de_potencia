@@ -9,7 +9,7 @@ V = output(1,:)';
 theta = output(2,:)';
 
 fprintf("\n\nTensão e ângulo nos barramentos.\n");
-fprintf(" n |     V  [p.u.]|  %c [rad]\n", 952);
+fprintf(" n |     V  [pu]  |  %c [rad]\n", 952);
 fprintf("------------------------------\n");
 for i = 1:1:tamanho
 

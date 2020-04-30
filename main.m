@@ -1,8 +1,10 @@
 
 %
-% Exemplo 8.5, página 283, "Computer Methods in Power System Analysis" W.Stagg , H. El-Abiad.
+% Exemplo 5.4, página 89, Electric Power System: A first course.  MOHAN,
+% Ned.
 %
-
+%   Apenas garantindo que a tela de comando inicie sem conteúdo prévio e que
+% não haja nenhum dado guardado de programas anteriores.
 clear 
 clc
 % Input do usuário:
@@ -45,18 +47,18 @@ matriz_Y = matriz_admitancia(matriz_Z, matriz_YG);
 
 %%
 % Input do usuário: especificações dos barramentos:
-% Se for barra tipo SLACK, deve-se definir o valor da tensão (1 p.u.) e ângulo (0 rad)
-% Se for barra tipo PV, deve-se definir Potência ativa em p.u. e magnitude da tensão em p.u..
-% Se for barra tipo PQ, deve-se definir Potência ativa em p.u. e Potência reativa em p.u..
+% Se for barra tipo SLACK, deve-se definir o valor da tensão (1 pu) e ângulo (0 rad)
+% Se for barra tipo PV, deve-se definir Potência ativa injetada em pu e magnitude da tensão em pu.
+% Se for barra tipo PQ, deve-se definir Potência ativa injetada em pu e Potência reativa injetada em pu.
 
-% Barramento 1: SLACK
+% Barramento 1: PQ
 Tipo_barra(1) = PQ;
-matriz_P(1) = 1.0;
-matriz_Q(1) = 0.0;
+matriz_P(1) = -1.0;
+matriz_Q(1) = -0.0;
 
 
 
-% Barramento 2: PQ
+% Barramento 2: SLACK
 Tipo_barra(2) = SLACK;
 matriz_V(2) = 1;
 matriz_theta(2) = 0;

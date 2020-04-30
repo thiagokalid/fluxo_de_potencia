@@ -7,7 +7,7 @@ n = [1:tamanho]';
 
 
 fprintf("\n\nPotência fornecida por cada barramento. \n");
-fprintf(" n |     P + Q*i [p.u.]\n", 952);
+fprintf(" n |     P + Q*i [pu]  \n", 952);
 fprintf("------------------------------\n");
 for i = 1:1:tamanho
 
