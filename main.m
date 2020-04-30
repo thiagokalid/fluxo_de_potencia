@@ -7,7 +7,7 @@ clear
 clc
 % Input do usuário:
 % Número de barramentos
-numBarra = 3;
+numBarra = 2;
 
 %%
 % Constantes para facilitar a leitura:
@@ -27,19 +27,8 @@ matriz_YG = zeros(numBarra , 1);
 matriz_Z = zeros(numBarra,numBarra);
 
 % Impedância da LT entre os barramentos 1-2 ou 2-1 (em p.u.):
-matriz_Z(1,2) = 0.0047 + j*0.0474;
-matriz_Z(2,1) = 0.0047 + j*0.0474;
-
-% Impedância da LT entre os barramentos 1-3 ou 3-1(em p.u.):
-matriz_Z(1,3) = 0.0062 + j*0.0632;
-matriz_Z(3,1) = 0.0062 + j*0.0632;
-
-% Impedância da LT entre os barramentos 2-3 ou 3-2(em p.u.):
-matriz_Z(2,3) = 0.0047 + j*0.0474;
-matriz_Z(3,2) = 0.0047 + j*0.0474;
-
-
-
+matriz_Z(1,2) = 0 + j*0.035;
+matriz_Z(2,1) = 0 + j*0.035;
 
 
 % Admitância barramento-terra na barra 1, em p.u.:
@@ -47,9 +36,6 @@ matriz_YG(1) = 0 ;
 
 % Admitância barramento-terra na barra 2, em p.u.:
 matriz_YG(2) = 0 ;
-
-% Admitância barramento-terra na barra 3, em p.u.:
-matriz_YG(3) = 0 ;
 
 
 
@@ -64,21 +50,16 @@ matriz_Y = matriz_admitancia(matriz_Z, matriz_YG);
 % Se for barra tipo PQ, deve-se definir Potência ativa em p.u. e Potência reativa em p.u..
 
 % Barramento 1: SLACK
-Tipo_barra(1) = SLACK;
-matriz_V(1) = 1.0;
-matriz_theta(1) = 0;
+Tipo_barra(1) = PQ;
+matriz_P(1) = 1.0;
+matriz_Q(1) = 0.0;
 
 
 
 % Barramento 2: PQ
-Tipo_barra(2) = PV;
-matriz_P(2) = 2.00;
-matriz_V(2) = 1.05;
-
-% Barramento 3: PQ
-Tipo_barra(3) = PQ;
-matriz_P(3) = -5.00;
-matriz_Q(3) = -1.00;
+Tipo_barra(2) = SLACK;
+matriz_V(2) = 1;
+matriz_theta(2) = 0;
 
 
 P_esp = vpa(matriz_P + matriz_Q * 1i);
