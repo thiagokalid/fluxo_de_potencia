@@ -20,6 +20,8 @@ while((erro > tol)&&(iter < max_iter))
     P_X0 = P_numeric_func(cell_X0{:});
     JAC_X0 = JAC_numeric_func(cell_X0{:});
     
+    
+    
     X1 = X0 - inv(JAC_X0) * P_X0;
     
     P_X1 = P_numeric_func(cell_X0{:});
@@ -30,9 +32,10 @@ while((erro > tol)&&(iter < max_iter))
     cell_X0 = num2cell(X0);
     iter = iter + 1;
     
-    
+    fprintf("\nJacobiano da iteração %d: \n" , iter);
+    disp(JAC_X0);
+    fprintf("\n");
 end
-
 
 
 X_final = X1;

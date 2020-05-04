@@ -30,7 +30,7 @@ for i = 1:1:n
             if( k ~= i)
                 matriz_Y(i,i) = (matriz_Y(i,i) + (-(matriz_Y(i,k))));
             else
-                matriz_Y(i,i) = (matriz_Y(i,i) + matriz_YG(1));
+                matriz_Y(i,i) = (matriz_Y(i,i) + matriz_YG(i));
             end
                 
             end

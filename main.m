@@ -34,7 +34,7 @@ matriz_Z(2,1) = 0 + j*0.035;
 
 
 % Admitância barramento-terra na barra 1, em p.u.:
-matriz_YG(1) = 0 ;
+matriz_YG(1) = 4.21*j ;
 
 % Admitância barramento-terra na barra 2, em p.u.:
 matriz_YG(2) = 0 ;
@@ -85,7 +85,9 @@ sym_P_geral = symfun(f_potencia_geral , variaveis_NR);
 P_numeric_geral = matlabFunction(sym_P_geral);
 
 %%
-[final_X , final_JAC , iteracoes] = NewtonRaphson(equacao_potencia_NR , variaveis_NR ,  X0, 10000, 1.0e-20);
+maximo_de_iteracoes = 1000;
+tolerancia = 1.0e-10;
+[final_X , final_JAC , iteracoes] = NewtonRaphson(equacao_potencia_NR , variaveis_NR , X0, maximo_de_iteracoes, tolerancia);
 
 fprintf("Número de iterações = %d ", iteracoes);
 
