@@ -5,12 +5,12 @@
 %[matriz_Y] = matriz_admitancia(matriz_Z , matriz_YG)
 %
 % @param matriz_Z: matriz com valores da impedância da LTs de tamanho
-%N x N, onde N corresponde ao número de barras.
+% N x N, onde N corresponde ao número de barras.
 % @param matriz_YG: matriz coluna com os valores das admitâncias do 
 % barramento para o terra. 
 %
 % @return matriz_Y: matriz quadrada (N x N) contendo os dados das
-% admitâncias das LTs conectando os barramentos (Y(n,m) = 0 significa que
+% admitâncias das LTs conectando os barramentos (matriz_Y(n,m) = 0 significa que
 % não há LT entre os barramentos n e m).
 
 function [matriz_Y] = matriz_admitancia(matriz_Z , matriz_YG)
