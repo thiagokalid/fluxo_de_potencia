@@ -23,15 +23,15 @@ matriz_YG = zeros(numBarra , 1);
 % INPUT DO USUÁRIO: especificações das Linhas de Transmissão (LTs):
 matriz_Z = zeros(numBarra,numBarra);
 
-% Impedância da LT entre os barramentos 1-2 ou 2-1 (em p.u.):
+% Impedância da LT entre os barramentos 1-2 ou 2-1 (em pu):
 matriz_Z(1,2) = 0.0047 + j*0.0474;
 matriz_Z(2,1) = 0.0047 + j*0.0474;
 
-% Impedância da LT entre os barramentos 1-3 ou 3-1(em p.u.):
+% Impedância da LT entre os barramentos 1-3 ou 3-1(em pu):
 matriz_Z(1,3) = 0.0062 + j*0.0632;
 matriz_Z(3,1) = 0.0062 + j*0.0632;
 
-% Impedância da LT entre os barramentos 2-3 ou 3-2(em p.u.):
+% Impedância da LT entre os barramentos 2-3 ou 3-2(em pu):
 matriz_Z(2,3) = 0.0047 + j*0.0474;
 matriz_Z(3,2) = 0.0047 + j*0.0474;
 
@@ -53,8 +53,7 @@ matriz_Y = matriz_admitancia(matriz_Z, matriz_YG);
 
 
 %%
-% Input do usuário: especificações dos barramentos:
-% Input do usuário: especificações dos barramentos:
+% INPUT DO USUÁRIO:  especificações dos barramentos:
 % Se for barra tipo SLACK, deve-se definir o valor da tensão (1 pu) e ângulo (0 rad)
 % Se for barra tipo PV, deve-se definir Potência ativa injetada em pu e magnitude da tensão em pu.
 % Se for barra tipo PQ, deve-se definir Potência ativa injetada em pu e Potência reativa injetada em pu.

@@ -1,6 +1,4 @@
 function [] = printP(valores_P, iteracoes)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
 tamanho = size(valores_P , 1);
 
 n = [1:tamanho]';

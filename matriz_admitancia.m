@@ -14,23 +14,42 @@
 % não há LT entre os barramentos n e m).
 
 function [matriz_Y] = matriz_admitancia(matriz_Z , matriz_YG)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+% Todo o método de cálculo da matriz admitância é detalhado melhor no livro
+% do Ned Mohan Electric Power System: A first Course.
+% 
+% 
+% -> Para elementos fora da diagonal principal, sua fórmula resume-se ao
+% inverso negativo da impedância.
+% 
+% -> Para elementos dentro da diagonal pricipal, deverá ser somada a auto
+% admitância especificada matriz_YG e também todos elementos que tem
+% conexão (LT) com o barramento, ou seja, todos elementos de sua linha da matriz_Z.
+% 
+% * Caso não houver LT o valor da matriz_Z será zero, portanto não haverá
+% contribuição no cálculo do somatório da admitância.
+% 
+
 n = size(matriz_Z , 1);
 matriz_Y = zeros(n,n);
 
 for i = 1:1:n
     for z = 1:1:n
         if(matriz_Z(i,z) ~= 0)
+            % Primeiro irá ser determinado todos os valores da linha que não
+            % são da diagonal principal:
             matriz_Y(i,z) = -(1 / matriz_Z(i,z));
         end
         
         if(z == n)
+            % Após determinado todos os valores, ou seja, chegado no final
+            % da linha, será determinado o valor da diagonal principal:
             for(k = 1:1:n)
             if( k ~= i)
+                % Serão somados todos os valores de sua linha.
                 matriz_Y(i,i) = (matriz_Y(i,i) + (-(matriz_Y(i,k))));
             else
-                matriz_Y(i,i) = (matriz_Y(i,i) + matriz_YG(1));
+                % Por fim será somada sua auto-admitância.
+                matriz_Y(i,i) = (matriz_Y(i,i) + matriz_YG(i));
             end
                 
             end
