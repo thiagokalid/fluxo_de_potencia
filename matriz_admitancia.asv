@@ -32,19 +32,30 @@ function [matriz_Y] = matriz_admitancia(matriz_Z , matriz_YG)
 n = size(matriz_Z , 1);
 matriz_Y = zeros(n,n);
 
-for i = 1:n
-    somatorio_Y = 0
-    for j = 1:n
+for i = 1:1:n
+    for j = 1:1:n
         if(matriz_Z(i,j) ~= 0)
             % Primeiro irá ser determinado todos os valores da linha que não
             % são da diagonal principal:
             matriz_Y(i,j) = -(1 / matriz_Z(i,j));
-            somatorio_Y = somatorio_Y + (-matriz_Y(i,j))
         end
+        
+        if(j == n)
+            % Após determinado todos os valores, ou seja, chegado no final
+            % da linha, será determinado o valor da diagonal principal:
+            for(k = 1:1:n)
+            if( k ~= i)
+                % Serão somados todos os valores de sua linha.
+                matriz_Y(i,i) = (matriz_Y(i,i) + (-(matriz_Y(i,k))));
+            else
+                % Por fim será somada sua auto-admitância.
+                matriz_Y(i,i) = (matriz_Y(i,i) + matriz_YG(i));
+            end
+                
+            end
+        end
+        
     end
-    % Após determinado todos os valores, ou seja, chegado no final
-    % da linha, será determinado o valor da diagonal principal:
-    matriz_Y(i,i) = matriz_YG(i) + somatorio_Y
 end
 end
 

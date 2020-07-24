@@ -26,7 +26,7 @@ matriz_Z = zeros(numBarra,numBarra);
 % Impedância da LT entre os barramentos 1-2 ou 2-1 (em pu):
 matriz_Z(1,2) = 0.0047 + j*0.0474;
 matriz_Z(2,1) = 0.0047 + j*0.0474;
-
+    
 % Impedância da LT entre os barramentos 1-3 ou 3-1(em pu):
 matriz_Z(1,3) = 0.0062 + j*0.0632;
 matriz_Z(3,1) = 0.0062 + j*0.0632;
