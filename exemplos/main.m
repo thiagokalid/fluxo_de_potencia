@@ -19,21 +19,22 @@ assume(matriz_Q, 'real');
 matriz_theta = sym("theta" , [1 , numBarra]);
 matriz_V = sym("V" , [1 , numBarra]);
 matriz_YG = zeros(numBarra , 1);
-matriz_Z = zeros(numBarra,numBarra);
 %%
 % INPUT DO USUÁRIO: especificações das Linhas de Transmissão (LTs):
+matriz_Z = zeros(numBarra,numBarra);
 
 % Impedância da LT entre os barramentos 1-2 ou 2-1 (em pu):
-matriz_Z(1,2) = 0.0047 + j* 0.0474;
-matriz_Z(2,1) = 0.0047 + j* 0.0474;
+matriz_Z(1,2) = 0.0047 + j*0.0474;
+matriz_Z(2,1) = 0.0047 + j*0.0474;
+    
+% Impedância da LT entre os barramentos 1-3 ou 3-1(em pu):
+matriz_Z(1,3) = 0.0062 + j*0.0632;
+matriz_Z(3,1) = 0.0062 + j*0.0632;
 
-% Impedância da LT entre os barramentos 1-3 ou 3-1 (em pu):
-matriz_Z(1,3) = 0.0062 + j* 0.0632;
-matriz_Z(3,1) = 0.0062 + j* 0.0632;
+% Impedância da LT entre os barramentos 2-3 ou 3-2(em pu):
+matriz_Z(2,3) = 0.0047 + j*0.0474;
+matriz_Z(3,2) = 0.0047 + j*0.0474;
 
-% Impedância da LT entre os barramentos 2-3 ou 3-2 (em pu):
-matriz_Z(2,3) = 0.0047 + j* 0.0474;
-matriz_Z(3,2) = 0.0047 + j* 0.0474;
 
 
 % Admitância barramento-terra na barra 1, em pu:
@@ -46,8 +47,9 @@ matriz_YG(2) = 0 ;
 matriz_YG(3) = 0 ;
 
 
+
 % Formando a matriz admitância:
-matriz_Y = matriz_admitancia(matriz_Z, matriz_YG)
+matriz_Y = matriz_admitancia(matriz_Z, matriz_YG);
 
 
 %%

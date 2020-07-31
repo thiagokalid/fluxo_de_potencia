@@ -33,18 +33,18 @@ n = size(matriz_Z , 1);
 matriz_Y = zeros(n,n);
 
 for i = 1:n
-    somatorio_Y = 0
+    somatorio_linha = 0;
     for j = 1:n
         if(matriz_Z(i,j) ~= 0)
             % Primeiro irá ser determinado todos os valores da linha que não
             % são da diagonal principal:
             matriz_Y(i,j) = -(1 / matriz_Z(i,j));
-            somatorio_Y = somatorio_Y + (-matriz_Y(i,j))
+            somatorio_linha = somatorio_linha + (matriz_Y(i,j));
         end
     end
     % Após determinado todos os valores, ou seja, chegado no final
     % da linha, será determinado o valor da diagonal principal:
-    matriz_Y(i,i) = matriz_YG(i) + somatorio_Y
+    matriz_Y(i,i) = matriz_YG(i) - somatorio_linha;
 end
 end
 
