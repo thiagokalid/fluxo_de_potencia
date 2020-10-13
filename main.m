@@ -13,11 +13,11 @@ numBarra = 3;
 SLACK = 1;
 PV = 2;
 PQ = 3;
-matriz_P = sym("P" , [numBarra , 1]);
-matriz_Q = sym("Q" , [numBarra , 1]);
+matriz_P = sym('P' , [numBarra , 1]);
+matriz_Q = sym('Q' , [numBarra , 1]);
 assume(matriz_Q, 'real');
-matriz_theta = sym("theta" , [1 , numBarra]);
-matriz_V = sym("V" , [1 , numBarra]);
+matriz_theta = sym('theta' , [1 , numBarra]);
+matriz_V = sym('V' , [1 , numBarra]);
 matriz_YG = zeros(numBarra , 1);
 matriz_Z = zeros(numBarra,numBarra);
 %%
@@ -107,7 +107,7 @@ P_numeric_geral = matlabFunction(sym_P_geral);
 [P_nas_LTs] = flxuo_potencia_LT(variaveis_NR , final_X , matriz_V, matriz_theta, matriz_Z);
 
 % Mostrando na tela de comando do usuário os resultados obtidos:
-fprintf("Número de iterações = %d ", iteracoes);
+fprintf('Número de iterações = %d ', iteracoes);
 
 cell_X = num2cell(final_X);
 P_das_barras = P_numeric_geral(cell_X{:});
