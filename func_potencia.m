@@ -31,9 +31,9 @@ function [f_potencia_NR , f_potencia_geral] = func_potencia(nPV, nPQ , P_esp, Ti
 num_barramentos = size(P_esp, 1); % Como é matriz coluna, o número de linhas corresponde ao numer ode elementso.
 
 
-P_equations = sym("P" , [nPQ + nPV , 1]);
+P_equations = sym('P' , [nPQ + nPV , 1]);
 P_count = 1;
-Q_equations = sym("Q" , [nPQ , 1] , 'real' );
+Q_equations = sym('Q' , [nPQ , 1]);
 Q_count = 1;
 
 
@@ -61,10 +61,6 @@ for k = 1:1:(num_barramentos)
 end
 end
 
-
 f_potencia_NR = vpa([P_equations ; Q_equations]);
-
-
-
 
 end
