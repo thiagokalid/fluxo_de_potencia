@@ -20,10 +20,10 @@ function [X0 , variaveisNR] = obter_dadosNR(Tipo_barra)
         switch(Tipo_barra(i))
             case 1
             case 2
-                NR_theta = [NR_theta sym('theta' num2str(i))];
+                NR_theta = [NR_theta sym(['theta' num2str(i)])];
             case 3
-                NR_theta = [NR_theta sym('theta' num2str(i)))];
-                NR_V     = [NR_V sym('V' num2str(i)))];
+                NR_theta = [NR_theta sym(['theta' num2str(i)])];
+                NR_V     = [NR_V sym(['V' num2str(i)])];
         end
     end
     NR_theta = NR_theta(2 : end);
