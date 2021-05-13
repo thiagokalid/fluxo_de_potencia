@@ -2,7 +2,7 @@ function [fluxo_de_potencia_LT] = flxuo_potencia_LT(variaveis_NR , final_X , mat
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 tamanho = size(matriz_V , 2);
-E = matriz_V + matriz_theta * j;
+E = matriz_V .* exp(matriz_theta * j);
 E = subs(E , variaveis_NR , final_X');
 Y_G = zeros(tamanho , tamanho);
 
